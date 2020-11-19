@@ -1,7 +1,7 @@
 package com.artezio.vtbdemo.redisproducer.repository;
 
 import com.artezio.vtbdemo.redisproducer.model.SomeMessage;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.stream.RecordId;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.connection.stream.StringRecord;
@@ -13,12 +13,17 @@ import java.util.Map;
 import java.util.Objects;
 
 @Repository
-@AllArgsConstructor
 public class SomeMessageRepository {
 
+    @Value("${app.redis.stream.name}")
+    private String streamName;
     private final RedisTemplate<String, String> redisTemplate;
 
-    public String save(String streamName, SomeMessage someMessage) {
+    public SomeMessageRepository(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public String save(SomeMessage someMessage) {
         Map<String, String> fields = new HashMap<>();
         fields.put("name", someMessage.getName());
         fields.put("message", someMessage.getMessage());
@@ -28,7 +33,7 @@ public class SomeMessageRepository {
         return Objects.requireNonNull(recordId).getValue();
     }
 
-    public Long getSize(String streamName) {
+    public Long getSize() {
         return redisTemplate.opsForStream().size(streamName);
     }
 }
