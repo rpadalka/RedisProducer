@@ -12,7 +12,6 @@ import java.io.Serializable;
 public class SomeMessage implements Serializable {
     private static final long serialVersionUID = 553215874062476335L;
 
-    private Long id;
     private String name;
     private String message;
 }

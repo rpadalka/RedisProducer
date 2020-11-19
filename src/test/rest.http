@@ -1,0 +1,16 @@
+GET http://localhost:8080/messages/get
+//Authorization: Basic user password
+
+###
+
+POST http://localhost:8080/messages/create
+Content-Type: application/json
+
+{"name": "Primary", "message": "FirstValue"}
+
+###
+
+POST http://localhost:8080/messages/create
+Content-Type: application/json
+
+{"name": "Secondary", "message": "SecondValue"}
